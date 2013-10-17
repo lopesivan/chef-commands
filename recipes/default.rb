@@ -164,3 +164,54 @@
 #  package pkg
 #end
 
+# ============================================================================
+# apt-get install update
+# ============================================================================
+#execute "apt-get-update" do
+#  command "apt-get update"
+#  ignore_failure true
+#  action :nothing
+#end
+#
+#package "update-notifier-common" do
+#  notifies :run, resources(:execute => "apt-get-update"), :immediately
+#end
+#
+#execute "apt-get-update-periodic" do
+#  command "apt-get update"
+#  ignore_failure true
+#  only_if do
+#   File.exists?('/var/lib/apt/periodic/update-success-stamp') &&
+#   File.mtime('/var/lib/apt/periodic/update-success-stamp') < Time.now - 86400
+#  end
+#end
+
+################################# %%%%%%%% ###################################
+################################# %%%%%%%% ###################################
+################################# %%%%%%%% ###################################
+
+###
+## NODEJS
+#
+bash "update-apt-repository" do
+  user "root"
+  code <<-EOH
+  apt-get update
+  EOH
+end
+
+nodejs_version = "0.10.20"
+src_filename = "node-v#{nodejs_version}.tar.gz"
+src_filepath = "#{Chef::Config['file_cache_path']}/#{src_filename}"
+extract_path = "#{Chef::Config['file_cache_path']}/nodejs}"
+
+bash "install_ruby_build" do
+   cwd "#{Chef::Config[:file_cache_path]}/"
+   user "rbenv"
+   group "rbenv"
+   code <<-EOH
+     wget http://nodejs.org/dist/v0.10.20/node-v0.10.20.tar.gz
+     tar xvzf node-v0.10.20.tar.gz
+     EOH
+   environment 'PREFIX' => "/usr/local"
+end
