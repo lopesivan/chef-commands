@@ -1,0 +1,8 @@
+<% # templates/default/config.json.erb %>
+Config file.
+
+Variable: <%= node[:home_dir] %>
+
+Chef Version: <%= node[:chef_packages][:chef][:version] %>
+Platform: <%= node[:platform] %>
+Version: <%= node[:platform_version] %>
