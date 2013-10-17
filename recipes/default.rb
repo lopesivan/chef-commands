@@ -3,6 +3,16 @@
 #  ssh_keys  ['paste your public ssh key here']
 #end
 
+# openssl passwd -1 "macaco"
+# $1$kcDoiX0e$dgWr6qT3WFEXqt1rFk2Hl1
+user "vinicius" do
+    comment "Vinícius is a User"
+    home "/home/ana"
+    shell "/bin/bash"
+    supports  :manage_home => true
+    password "$1$kcDoiX0e$dgWr6qT3WFEXqt1rFk2Hl1"
+end
+
 # openssl passwd -1 "gato"
 # $1$Wwgw0JlI$bKUy.6uhcoT6.CTTU6FOi1
 user "ana" do
@@ -33,9 +43,12 @@ group "sudo" do
   action :create
 end
 
+group "petrobras" do
+  members ['ivan', 'vinicius']
+  action :create
+end
 
-
-
+#####
 template "#{ENV['HOME']}/commands.txt" do
   source 'commands.txt.erb'
   mode '0664'
