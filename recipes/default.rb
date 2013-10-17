@@ -1,3 +1,41 @@
+#user_account 'deployer' do
+#  # keys for file ~/.ssh/authorized keys
+#  ssh_keys  ['paste your public ssh key here']
+#end
+
+# openssl passwd -1 "gato"
+# $1$Wwgw0JlI$bKUy.6uhcoT6.CTTU6FOi1
+user "ana" do
+    comment "Ana is a User"
+    home "/home/ana"
+    shell "/bin/bash"
+    supports  :manage_home => true
+    password "$1$Wwgw0JlI$bKUy.6uhcoT6.CTTU6FOi1"
+end
+
+# openssl passwd -1 "cachorro"
+# $1$PIJ/VG4S$CfsD5hRSbG.rc4/dvW6Lt.
+user "ivan" do
+    comment "Ivan is a User"
+    home "/home/ivan"
+    shell "/bin/bash"
+    supports :manage_home => true
+    password "$1$PIJ/VG4S$CfsD5hRSbG.rc4/dvW6Lt."
+end
+
+group "admin" do
+  members ['ivan', 'ana']
+  action :create
+end
+
+group "sudo" do
+  members ['ivan', 'ana']
+  action :create
+end
+
+
+
+
 template "#{ENV['HOME']}/commands.txt" do
   source 'commands.txt.erb'
   mode '0664'
